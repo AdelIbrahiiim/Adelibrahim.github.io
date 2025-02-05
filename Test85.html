@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editorial Board - ON POINT</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&family=Poppins:wght@500&display=swap" rel="stylesheet">
+    
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Poppins', sans-serif;
+            text-align: center;
+
+            background-color: #f3dab4;
+            color: #3a5254;
+            margin: 0;
+            padding: 0;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        h1 {
+            margin: 20px;
+            font-weight: 700;
+            font-size: 32px;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* Two columns layout */
+            gap: 25px;
+            padding: 20px;
+            max-width: 1200px;
+            margin: auto;
+
+            opacity: 0;
+            animation: fadeInUp 1s ease-in-out 0.5s forwards;
+        }
+
+        .editor-in-chief, .member, .cartoonist {
+            cursor: pointer;
+            background-color: #d1a552;
+            border-radius: 12px;
+            box-shadow: 0px 4px 8px rgba(58, 82, 84, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+            opacity: 0;
+            animation: fadeInUp 1s ease-in-out 0.7s forwards;
+            width: 200px; /* Smaller square size */
+            height: 200px; /* Maintain square shape */
+
+            position: relative; /* To keep the inner content inside square */
+            margin: auto; /* Centered content */
+        }
+
+        .editor-in-chief {
+            grid-column: span 2; /* Editor-in-Chief takes full width */
+            background-color: #d1a552;
+        }
+
+        .member, .cartoonist {
+            background-color: #d1a552;
+        }
+
+        .editor-in-chief:hover, .member:hover, .cartoonist:hover {
+            transform: scale(1.08);
+            box-shadow: 0px 6px 12px rgba(58, 82, 84, 0.5);
+            background-color: #c38c4d;
+
+        }
+
+        .name-role {
+            font-weight: bold;
+            margin-top: 10px;
+            position: absolute;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: none;
+        }
+
+        .editor-in-chief:hover .name-role,
+        .member:hover .name-role,
+        .cartoonist:hover .name-role {
+            display: block;
+        }
+
+        .cartoonist {
+            background-color: #ffcc66;
+        }
+
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .modal-content {
+            background-color: #ecbb6a;
+            padding: 20px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 500px;
+            margin: 12% auto;
+
+            text-align: center;
+            position: relative;
+            color: #3a5254;
+            box-shadow: 0px 4px 10px rgba(58, 82, 84, 0.5);
+            transform: translateY(-20px);
+            opacity: 0;
+            animation: slideIn 0.5s ease-in-out forwards;
+        }
+
+        .close {
+            position: absolute;
+            top: 12px;
+            right: 15px;
+            font-size: 22px;
+            cursor: pointer;
+            color: #3a5254;
+            transition: color 0.3s ease;
+        }
+
+        .close:hover {
+            color: #3a5254;
+        }
+
+        /* Keyframe Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: 
+
+translateY(0); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 24px;
+            }
+
+            .gallery {
+                grid-template-columns: 1fr; /* Switch to one column on smaller screens */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Editorial Board</h1>
+    
+
+    <div class="gallery">
+        <!-- Editor-in-Chief at the top -->
+        <div class="editor-in-chief" onclick="openModal('editor-in-chief')">
+            <div class="name-role">Editor-in-Chief</div>
+        </div>
+
+        <!-- Other Members in 2 columns -->
+        <div class="member" onclick="openModal('news-editor')">
+            <div class="name-role">News Editor</div>
+        </div>
+        <div class="member" onclick="openModal('feature-editor')">
+            <div class="name-role">Feature Editor</div>
+        </div>
+        <div class="member" onclick="openModal('sports-editor')">
+
+            <div class="name-role">Sports Editor</div>
+        </div>
+        <div class="member" onclick="openModal('photojournalist')">
+            <div class="name-role">Photojournalist</div>
+        </div>
+        <div class="member" onclick="openModal('layout-artist')">
+            <div class="name-role">Layout Artist</div>
+        </div>
+        <div class="cartoonist" onclick="openModal('editorial-cartoonist')">
+            <div class="name-role">Editorial Cartoonist</div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 id="modal-title"></h2>
+            <p><strong>Full Name:</strong> <span id="modal-fullname"></span></p>
+            <p><strong>Birthday:</strong> <span id="modal-birthday"></span></p>
+            <p><strong>Years in the Publication:</strong> <span id="modal-years"></span></p>
+            <p><strong>Hobbies:</strong> <span id="modal-hobbies"></span></p>
+        </div>
+    </div>
+
+    <script>
+        function openModal(role) {
+            const profiles = {
+                "editor-in-chief": { fullname: "Alex Johnson", birthday: "April 10, 2000", years: "4", hobbies: "Reading, Writing, Traveling" },
+                "news-editor": { fullname: "Samantha Lee", birthday: "July 22, 2001", years: "3", hobbies: "Photography, Research, Blogging" },
+                "feature-editor": { fullname: "David Martinez", birthday: "March 5, 1999", years: "5", hobbies: "Storytelling, Hiking, Music" },
+                "sports-editor": { fullname: "Michael Brown", birthday: "June 15, 2002", years: "2", hobbies: "Basketball, Running, Gaming" },
+                "photojournalist": { fullname: "Emma Wilson", birthday: "September 30, 2000", years: "3", hobbies: "Photography, Editing, Road Trips" },
+                "layout-artist": { fullname: "Olivia Davis", birthday: "December 18, 2001", years: "2", hobbies: "Graphic Design, Painting, Yoga" },
+
+                "editorial-cartoonist": { fullname: "Chris Wright", birthday: "January 25, 2000", years: "3", hobbies: "Sketching, Animation, Humor" }
+            };
+
+            document.getElementById("modal-title").innerText = role.replace("-", " ");
+            document.getElementById("modal-fullname").innerText = profiles[role].fullname;
+            document.getElementById("modal-birthday").innerText = profiles[role].birthday;
+            document.getElementById("modal-years").innerText = profiles[role].years;
+            document.getElementById("modal-hobbies").innerText = profiles[role].hobbies;
+            document.getElementById("modal").style.display = "block";
+
+        }
+
+        function closeModal() {
+            document.getElementById("modal").style.display = "none";
+        }
+    </script>
+
+</body>
+</html>
